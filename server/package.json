@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "graphql server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConnorMacKenzie/league-graphql.git"
+  },
+  "author": "Connor MacKenzie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ConnorMacKenzie/league-graphql/issues"
+  },
+  "homepage": "https://github.com/ConnorMacKenzie/league-graphql#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-graphql": "^0.7.1",
+    "graphql": "^14.1.1",
+    "mongoose": "^5.4.10"
+  }
+}

@@ -6,12 +6,12 @@ An express GraphQL app to query League of Legends stats from a MongoDB database 
 
 * Install dependencies
 ```shell
+cd server
 npm install
 ```
 
 * Start server
 ```shell
-cd server
 node app.js
 ```
 

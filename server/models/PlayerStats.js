@@ -7,8 +7,8 @@ const playerStatsSchema = new Schema({
   kills: Number,
   deaths: Number,
   assists: Number,
-  gold: String,
-  champions: String
+  cs: Number,
+  champion: String
 });
 
 module.exports = mongoose.model('PlayerStats', playerStatsSchema);

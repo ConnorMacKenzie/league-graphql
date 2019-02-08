@@ -28,28 +28,16 @@ const GameType = new GraphQLObjectType({
   name: 'Game',
   fields: () => ({
     id: {type: GraphQLID},
-    team1: {
-      type: TeamType,
-      resolve(parent, args){
-        return Team.findById(parent.team1Id);
-      }
-    },
-    team2: {
-      type: TeamType,
-      resolve(parent, args){
-        return Team.findById(parent.team2Id);
-      }
-    },
     winner: {
       type: TeamType,
       resolve(parent, args){
-        return Team.findById(parent.winnerId);
+        return Team.findById(parent.winner);
       }
     },
     loser: {
       type: TeamType,
       resolve(parent, args){
-        return Team.findById(parent.loserId);
+        return Team.findById(parent.loser);
       }
     }
   })
@@ -59,13 +47,12 @@ const PlayerType = new GraphQLObjectType({
   name: 'Player',
   fields: () => ({
     id: {type: GraphQLID},
-    name: {type: GraphQLString},
     ign: {type: GraphQLString},
-    role: {type: GraphQLString},
+    position: {type: GraphQLString},
     team: {
       type: TeamType,
       resolve(parent, args){
-        return Team.findById(parent.teamId);
+        return Team.findById(parent.team);
       }
     }
   })
@@ -86,23 +73,23 @@ const PlayerStatsType = new GraphQLObjectType({
     game: {
       type: GameType,
       resolve(parent, args){
-        return Game.findById(parent.gameId);
+        return Game.findById(parent.game);
       }
     },
     player: {
       type: PlayerType,
       resolve(parent, args){
-        return Player.findById(parent.playerId);
+        return Player.findById(parent.player);
       }
     },
     kills: {type: GraphQLInt},
     deaths: {type: GraphQLInt},
     assists: {type: GraphQLInt},
-    gold: {type: GraphQLString},
+    cs: {type: GraphQLInt},
     champion: {
       type: ChampionType,
       resolve(parent, args){
-        return Champion.findById(parent.championId);
+        return Champion.findById(parent.champion);
       }
     }
   })
@@ -223,15 +210,11 @@ const Mutation = new GraphQLObjectType({
     addGame: {
       type: GameType,
       args: {
-        team1: {type: new GraphQLNonNull(GraphQLID)},
-        team2: {type: new GraphQLNonNull(GraphQLID)},
         winner: {type: new GraphQLNonNull(GraphQLID)},
         loser: {type: new GraphQLNonNull(GraphQLID)}
       },
       resolve(parent, args){
         let game = new Game({
-          team1: args.team1,
-          team2: args.team2,
           winner: args.winner,
           loser: args.loser
         });
@@ -241,14 +224,12 @@ const Mutation = new GraphQLObjectType({
     addPlayer: {
       type: PlayerType,
       args: {
-        name: {type: new GraphQLNonNull(GraphQLString)},
         ign: {type: new GraphQLNonNull(GraphQLString)},
         position: {type: new GraphQLNonNull(GraphQLString)},
         team: {type: new GraphQLNonNull(GraphQLID)}
       },
       resolve(parent, args){
         let player = new Player({
-          name: args.name,
           ign: args.ign,
           position: args.position,
           team: args.team
@@ -273,10 +254,10 @@ const Mutation = new GraphQLObjectType({
       args: {
         game: {type: new GraphQLNonNull(GraphQLID)},
         player: {type: new GraphQLNonNull(GraphQLID)},
-        kills: {type: new GraphQLNonNull(GraphQLString)},
-        deaths: {type: new GraphQLNonNull(GraphQLString)},
-        assists: {type: new GraphQLNonNull(GraphQLString)},
-        gold: {type: new GraphQLNonNull(GraphQLString)},
+        kills: {type: new GraphQLNonNull(GraphQLInt)},
+        deaths: {type: new GraphQLNonNull(GraphQLInt)},
+        assists: {type: new GraphQLNonNull(GraphQLInt)},
+        cs: {type: new GraphQLNonNull(GraphQLInt)},
         champion: {type: new GraphQLNonNull(GraphQLID)},
       },
       resolve(parent, args){
@@ -286,7 +267,7 @@ const Mutation = new GraphQLObjectType({
           kills: args.kills,
           deaths: args.deaths,
           assists: args.assists,
-          gold: args.gold,
+          cs: args.cs,
           champion: args.champion
         });
         return playerStats.save();

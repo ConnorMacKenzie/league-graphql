@@ -72,7 +72,7 @@ const PlayerType = new GraphQLObjectType({
 });
 
 const TeamType = new GraphQLObjectType({
-  name: 'PlayerStats',
+  name: 'Team',
   fields: () => ({
     id: {type: GraphQLID},
     name: {type: GraphQLString}

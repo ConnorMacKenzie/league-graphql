@@ -20,7 +20,13 @@ const ChampionType = new GraphQLObjectType({
   name: 'Champion',
   fields: () => ({
     id: {type: GraphQLID},
-    name: {type: GraphQLString}
+    name: {type: GraphQLString},
+    playedInGames: {
+      type: new GraphQLList(PlayerStatsType),
+      resolve(parent, args){
+        return PlayerStats.find({champion: parent.id});
+      }
+    }
   })
 });
 
@@ -39,6 +45,12 @@ const GameType = new GraphQLObjectType({
       resolve(parent, args){
         return Team.findById(parent.loser);
       }
+    },
+    playerStats: {
+      type: new GraphQLList(PlayerStatsType),
+      resolve(parent, args){
+        return PlayerStats.find({game: parent.champion});
+      }
     }
   })
 });
@@ -54,6 +66,12 @@ const PlayerType = new GraphQLObjectType({
       resolve(parent, args){
         return Team.findById(parent.team);
       }
+    },
+    playedInGames: {
+      type: new GraphQLList(PlayerStatsType),
+      resolve(parent, args){
+        return PlayerStats.find({player: parent.id});
+      }
     }
   })
 });
@@ -62,7 +80,19 @@ const TeamType = new GraphQLObjectType({
   name: 'Team',
   fields: () => ({
     id: {type: GraphQLID},
-    name: {type: GraphQLString}
+    name: {type: GraphQLString},
+    gamesWon: {
+      type: new GraphQLList(GameType),
+      resolve(parent, args){
+        return Game.find({winner: parent.id});
+      }
+    },
+    gamesLost: {
+      type: new GraphQLList(GameType),
+      resolve(parent, args){
+        return Game.find({loser: parent.id});
+      }
+    }
   })
 });
 

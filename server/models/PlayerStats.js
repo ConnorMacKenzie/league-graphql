@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const playerStatsSchema = new Schema({
   game: String,
-  ign: String,
+  player: String,
   kills: Number,
   deaths: Number,
   assists: Number,

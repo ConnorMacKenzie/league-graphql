@@ -49,7 +49,7 @@ const GameType = new GraphQLObjectType({
     playerStats: {
       type: new GraphQLList(PlayerStatsType),
       resolve(parent, args){
-        return PlayerStats.find({game: parent.champion});
+        return PlayerStats.find({game: parent.id});
       }
     }
   })
@@ -140,7 +140,7 @@ const RootQuery = new GraphQLObjectType({
       type: ChampionType,
       args: {name: {type: GraphQLString}},
       resolve(parent, args){
-        return Champion.find({name: args.name});
+        return Champion.findOne({name: args.name});
       }
     },
     champions: {
@@ -175,7 +175,7 @@ const RootQuery = new GraphQLObjectType({
       type: PlayerType,
       args: {ign: {type: GraphQLString}},
       resolve(parent, args){
-        return Player.find({ign: args.ign});
+        return Player.findOne({ign: args.ign});
       }
     },
     players: {
@@ -210,7 +210,7 @@ const RootQuery = new GraphQLObjectType({
       type: TeamType,
       args: {name: {type: GraphQLString}},
       resolve(parent, args){
-        return Team.find({name: args.name});
+        return Team.findOne({name: args.name});
       }
     },
     teams: {
